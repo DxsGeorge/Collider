@@ -169,44 +169,13 @@ void Render()
 
 	glutSwapBuffers();
 }
-void Render2(){
-	glClear(GL_COLOR_BUFFER_BIT);
-	glClear(GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glColor3f(1,1,1);
-	glTranslatef(0,0,-60);
-	glPointSize(10);
-	glPushMatrix();
-	glTranslatef(-10,0,0);
-	glBegin(GL_LINE);
-	for (int i=0;i<count_sph;i++){
-
-		glVertex3f(t,i,0);
-
-	}
-	glEnd();
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(10,0,0);
-	glBegin(GL_LINE);
-	for (int i=0;i<count_wall;i++){
-
-		glVertex3f(t,i,0);
-
-	}
-	glEnd();
-	glPopMatrix();
-	//glutSolidTeapot(20);
-	glutSwapBuffers();
-}
 //-----------------------------------------------------------
 
 
 void Idle()
 {
-	/*t+=0.01;
+	t+=0.01;
 	float dt=0.01;
 	if (choice==1){
 		for (int i=0;i<vertices.size();i++){
@@ -240,8 +209,8 @@ void Idle()
 						vertices.at(j).y=vertices.at(i).y+p12y*var;
 						vertices.at(j).z=vertices.at(i).z+p12z*var;
 					}
-					float v1=sqrt(pow(speeds.at(i).vx,2)+pow(speeds.at(i).vy,2)+pow(speeds.at(i).vz,2));
-					float v2=sqrt(pow(speeds.at(j).vx,2)+pow(speeds.at(j).vy,2)+pow(speeds.at(j).vz,2));
+					float v1=sqrt(pow(speeds.at(i).x,2)+pow(speeds.at(i).y,2)+pow(speeds.at(i).z,2));
+					float v2=sqrt(pow(speeds.at(j).x,2)+pow(speeds.at(j).y,2)+pow(speeds.at(j).z,2));
 					float en1=pow(v1,2)+pow(v2,2);
 					Vector3 n;
 					n.x=vertices.at(i).x-vertices.at(j).x;
@@ -251,19 +220,19 @@ void Idle()
 					n=Normalize3(n);
 					float e=1;
 					Vector3 v12;
-					v12.x=speeds.at(i).vx-speeds.at(j).vx;
-					v12.y=speeds.at(i).vy-speeds.at(j).vy;
-					v12.z=speeds.at(i).vz-speeds.at(j).vz;
+					v12.x=speeds.at(i).x-speeds.at(j).x;
+					v12.y=speeds.at(i).y-speeds.at(j).y;
+					v12.z=speeds.at(i).z-speeds.at(j).z;
 					float nv12=Dot3(n,v12);
 					float jn=(-(1+e)*nv12)/2;
-					speeds.at(i).vx=speeds.at(i).vx+jn*n.x;
-					speeds.at(i).vy=speeds.at(i).vy+jn*n.y;
-					speeds.at(i).vz=speeds.at(i).vz+jn*n.z;
-					speeds.at(j).vx=speeds.at(j).vx-jn*n.x;
-					speeds.at(j).vy=speeds.at(j).vy-jn*n.y;
-					speeds.at(j).vz=speeds.at(j).vz-jn*n.z;
-					v1=sqrt(pow(speeds.at(i).vx,2)+pow(speeds.at(i).vy,2)+pow(speeds.at(i).vz,2));
-					v2=sqrt(pow(speeds.at(j).vx,2)+pow(speeds.at(j).vy,2)+pow(speeds.at(j).vz,2));
+					speeds.at(i).x=speeds.at(i).x+jn*n.x;
+					speeds.at(i).y=speeds.at(i).y+jn*n.y;
+					speeds.at(i).z=speeds.at(i).z+jn*n.z;
+					speeds.at(j).x=speeds.at(j).x-jn*n.x;
+					speeds.at(j).y=speeds.at(j).y-jn*n.y;
+					speeds.at(j).z=speeds.at(j).z-jn*n.z;
+					v1=sqrt(pow(speeds.at(i).x,2)+pow(speeds.at(i).y,2)+pow(speeds.at(i).z,2));
+					v2=sqrt(pow(speeds.at(j).x,2)+pow(speeds.at(j).y,2)+pow(speeds.at(j).z,2));
 					float en2=pow(v1,2)+pow(v2,2);
 					if (en1!=en2) printf("%f \n",en1-en2);
 				}
@@ -271,23 +240,23 @@ void Idle()
 			if (!(vertices.at(i).x+R<N*R/2 && vertices.at(i).x-R>-N*R/2)) {
 				count_wall++;
 				counter_wall.push_back(count_wall);
-				speeds.at(i).vx=-speeds.at(i).vx;
+				speeds.at(i).x=-speeds.at(i).x;
 			}
 			if (!(vertices.at(i).y+R<N*R/2 && vertices.at(i).y-R>-N*R/2)) {
 				count_wall++;
 				counter_wall.push_back(count_wall);
-				speeds.at(i).vy=-speeds.at(i).vy;
+				speeds.at(i).y=-speeds.at(i).y;
 			}
 			if (!(vertices.at(i).z+R<N*R/2 && vertices.at(i).z-R>-N*R/2)) {
 				count_wall++;
 				counter_wall.push_back(count_wall);
-				speeds.at(i).vz=-speeds.at(i).vz;
+				speeds.at(i).z=-speeds.at(i).z;
 			}
-			vertices.at(i).x=vertices.at(i).x+speeds.at(i).vx*dt;
-			vertices.at(i).y=vertices.at(i).y+speeds.at(i).vy*dt;
-			vertices.at(i).z=vertices.at(i).z+speeds.at(i).vz*dt;
+			vertices.at(i).x=vertices.at(i).x+speeds.at(i).x*dt;
+			vertices.at(i).y=vertices.at(i).y+speeds.at(i).y*dt;
+			vertices.at(i).z=vertices.at(i).z+speeds.at(i).z*dt;
 		}
-	}*/
+	}
 	
 	glutPostRedisplay(); 
 }
