@@ -2,9 +2,10 @@
 #define VISUALS_H
 #include "math3.h"
 #include "collidables.h"
+#include <vector>
 
-
-
+extern std::vector<Sphere> spheres;
+extern std::vector<Molecule3> mols;
 
 
 //-------- Functions --------------------------------

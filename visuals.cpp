@@ -12,8 +12,6 @@
 
 int count_wall=0,count_sph=0;
 float t=0;
-std::vector<int> counter_wall;
-std::vector<int> counter_sphere;
 static float rotx = 0.0;
 static float roty = 0.0;
 static float rotz = 0.0;
