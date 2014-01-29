@@ -6,7 +6,7 @@
 //   management library
 #include "visuals.h"   // Header file for our OpenGL functions
 #include "math3.h"
-
+#include "collidables.h"
 
 
 

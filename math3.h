@@ -22,6 +22,12 @@ public:
 	irr::core::vector3df operator-(Point p){
 		return irr::core::vector3df(this->x-p.x,this->y-p.y,this->z-p.z);
 	}
+	float distance(Point p){
+		return sqrt((this->x-p.x)*(this->x-p.x)+(this->y-p.y)*(this->y-p.y)+(this->z-p.z)*(this->z-p.z));
+	}
+	Point operator+(irr::core::vector3df v){
+		return Point(this->x+v.X,this->y+v.Y,this->z+v.Z);
+	}
 };
 
 class Vector3 {
