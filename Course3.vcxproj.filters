@@ -21,12 +21,21 @@
     <ClInclude Include="math3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InitializeItems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collidables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="visuals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InitiliazeItems.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

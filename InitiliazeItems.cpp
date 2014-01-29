@@ -1,33 +1,54 @@
 #include <stdio.h>
 #include <vector>
 #include <time.h>
+
 #include "math3.h"
+#include "collidables.h"
+#define SQRT2 1.4142135;
+#define DIVSQRT2 0.70710678118;
 
 void Initialize(float choice, int N, float R)
 {
-	std::vector<Point> vertices;
-	vertices.reserve(N);
-	std::vector<Vector3> speeds;
-	speeds.reserve(N);
-	if (vertices.size()!=speeds.size()) printf("error different sizes");
-	srand(time(NULL));
-	Point p;
-	Vector3 sp;
-	for (int i=0;i<N;i++){
+	if (choice==1) {
+		std::vector<Sphere> spheres;
+		spheres.reserve(N);
+		srand(time(NULL));
+		Sphere sph;
+		for (int i=0;i<N;i++){
 
-		p.x=fmod(rand(),2*N*R);
+			sph.cm=Point(rand()%2*N*R,rand()%2*N*R,rand()%2*N*R);
+			sph.R=R;
+			sph.speed=irr::core::vector3df(rand()%10,rand()%10,rand()%10);
+			spheres.push_back(sph);
 
-		p.y=fmod(rand(),2*N*R);
+		}
+	}
+	else {
+		std::vector<Molecule3> mols;
+		mols.reserve(N);
+		srand(time(NULL));
+		Molecule3 m;
+		for (int i=0;i<N;i++){
 
-		p.z=fmod(rand(),2*N*R);
-		//printf("%f %f %f \n",p.x,p.y,p.z);
-		vertices.push_back(p);
+			m.cm=Point(rand()%2*N*R,rand()%2*N*R,rand()%2*N*R);
+			m.R=R;
+			m.sph1=m.sph2=m.sph3=(m.cm-Point(0,0,0));
+			m.orientation=irr::core::quaternion(rand(),rand(),rand(),rand());
+			m.orientation.normalize();
+			m.w=AxisAngle(irr::core::vector3df(rand(),rand(),rand()),rand()%360);
+			m.w.v.normalize();
+			irr::core::vector3df temp1,temp2,temp3;
+			temp1=irr::core::vector3df(-R,-R,0);
+			temp2=irr::core::vector3df(R,-R,0);
+			temp3=irr::core::vector3df(0,R,0);
+			temp1=fromRotation(m.orientation,temp1);
+			temp2=fromRotation(m.orientation,temp2);
+			temp3=fromRotation(m.orientation,temp3);
+			m.sph1+=temp1;
+			m.sph2+=temp2;
+			m.sph3+=temp3;
+			mols.push_back(m);
 
-		sp.x=fmod(rand(),10.0);
-
-		sp.y=fmod(rand(),10.0);
-		sp.z=fmod(rand(),10.0);
-		//printf("%f %f %f \n",sp.vx,sp.vy,sp.vz);
-		speeds.push_back(sp);
+		}
 	}
 }

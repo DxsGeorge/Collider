@@ -86,10 +86,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="collidables.h" />
+    <ClInclude Include="InitializeItems.h" />
     <ClInclude Include="math3.h" />
     <ClInclude Include="visuals.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InitiliazeItems.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="visuals.cpp" />
   </ItemGroup>

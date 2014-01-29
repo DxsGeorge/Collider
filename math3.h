@@ -1,6 +1,8 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "vector3d.h"
+#include "quaternion.h"
 
 class Point{
 public:
@@ -16,6 +18,9 @@ public:
 		x=0;
 		y=0;
 		z=0;
+	}
+	irr::core::vector3df operator-(Point p){
+		return irr::core::vector3df(this->x-p.x,this->y-p.y,this->z-p.z);
 	}
 };
 
@@ -68,65 +73,82 @@ public:
 	}
 };
 
-class Matrix33{
-	Vector3 v1; //row1
-	Vector3 v2; //row2
-	Vector3 v3; //row3
-	Matrix33 (Vector3 _v1, Vector3 _v2, Vector3 _v3){
+class MatriX33{
+	irr::core::vector3df v1; //row1
+	irr::core::vector3df v2; //row2
+	irr::core::vector3df v3; //row3
+	MatriX33 (irr::core::vector3df _v1, irr::core::vector3df _v2, irr::core::vector3df _v3){
 		v1=_v1;
 		v2=_v2;
 		v3=_v3;
 	}
-	Matrix33 (){
-		Vector3 v1,v2,v3;
+	MatriX33 (){
+		irr::core::vector3df v1,v2,v3;
 	}
 	float Det(){
-		return v1.z*v2.x*v3.y+v1.x*v2.y*v3.z+v1.y*v2.z*v3.x-v1.x*v2.x*v3.z-v1.z*v2.y*v3.x-v1.x*v2.z*v3.y;
+		return v1.Z*v2.X*v3.Y+v1.X*v2.Y*v3.Z+v1.Y*v2.Z*v3.X-v1.X*v2.X*v3.Z-v1.Z*v2.Y*v3.X-v1.X*v2.Z*v3.Y;
 	}
-	Matrix33 Inverse(){
+	MatriX33 Inverse(){
 		float det=this->Det();
-		Vector3 row1 ((v2.y*v3.z-v2.z*v3.y)/det,(v1.z*v3.y-v1.y*v3.z)/det,(v1.y*v2.z-v1.z*v2.y)/det);
-		Vector3 row2 ((v2.z*v3.x-v2.x*v3.z)/det,(v1.x*v3.z-v1.z*v3.x)/det,(v1.z*v2.x-v1.x*v2.z)/det);
-		Vector3 row3 ((v2.x*v3.y-v2.y*v3.x)/det,(v1.y*v3.x-v1.x*v3.y)/det,(v1.x*v2.y-v1.y*v2.x)/det);
-		return Matrix33 (row1,row2,row3);
+		irr::core::vector3df row1 ((v2.Y*v3.Z-v2.Z*v3.Y)/det,(v1.Z*v3.Y-v1.Y*v3.Z)/det,(v1.Y*v2.Z-v1.Z*v2.Y)/det);
+		irr::core::vector3df row2 ((v2.Z*v3.X-v2.X*v3.Z)/det,(v1.X*v3.Z-v1.Z*v3.X)/det,(v1.Z*v2.X-v1.X*v2.Z)/det);
+		irr::core::vector3df row3 ((v2.X*v3.Y-v2.Y*v3.X)/det,(v1.Y*v3.X-v1.X*v3.Y)/det,(v1.X*v2.Y-v1.Y*v2.X)/det);
+		return MatriX33 (row1,row2,row3);
 	}
-	Matrix33 fromAxisAngle(Vector3 v, float angle){
+	MatriX33 fromAXisAngle(irr::core::vector3df v, float angle){
 		angle*=3.14/180;
-		Vector3 row1 (cos(angle)+v.x*v.x*(1-cos(angle)), 
-			          v.x*v.y*(1-cos(angle))-v.z*sin(angle),
-					  v.x*v.z*(1-cos(angle))+v.y*sin(angle));
-		Vector3 row2 (v.y*v.x*(1-cos(angle))+v.z*sin(angle),
-					  cos(angle)+v.z*v.z*(1-cos(angle)),
-					  v.y*v.z*(1-cos(angle))-v.x*sin(angle));
-		Vector3 row3 (v.z*v.x*(1-cos(angle))-v.y*sin(angle),
-					  v.z*v.y*(1-cos(angle))+v.x*sin(angle),
-					  cos(angle)+v.z*v.z*(1-cos(angle)));
-		return Matrix33 (row1,row2, row3);
+		irr::core::vector3df row1 (cos(angle)+v.X*v.X*(1-cos(angle)), 
+			          v.X*v.Y*(1-cos(angle))-v.Z*sin(angle),
+					  v.X*v.Z*(1-cos(angle))+v.Y*sin(angle));
+		irr::core::vector3df row2 (v.Y*v.X*(1-cos(angle))+v.Z*sin(angle),
+					  cos(angle)+v.Z*v.Z*(1-cos(angle)),
+					  v.Y*v.Z*(1-cos(angle))-v.X*sin(angle));
+		irr::core::vector3df row3 (v.Z*v.X*(1-cos(angle))-v.Y*sin(angle),
+					  v.Z*v.Y*(1-cos(angle))+v.X*sin(angle),
+					  cos(angle)+v.Z*v.Z*(1-cos(angle)));
+		return MatriX33 (row1,row2, row3);
 	}
-	Vector3 operator*(Vector3 v){
-		float a=v1.x*v.x+v1.y*v.y+v1.z*v.z;
-		float b=v2.x*v.x+v2.y*v.y+v2.z*v.z;
-		float c=v3.x*v.x+v3.y*v.y+v3.z*v.z;
+	Vector3 operator*(irr::core::vector3df v){
+		float a=v1.X*v.X+v1.Y*v.Y+v1.Z*v.Z;
+		float b=v2.X*v.X+v2.Y*v.Y+v2.Z*v.Z;
+		float c=v3.X*v.X+v3.Y*v.Y+v3.Z*v.Z;
 		return Vector3 (a,b,c);
 	}
 };
 
 class AxisAngle{
 public:
-	Vector3 v;
+	irr::core::vector3df v;
 	float angle;
+	AxisAngle(irr::core::vector3df _v, float _angle){
+		v=_v;
+		angle=_angle;
+	}
+	AxisAngle(){
+		v=irr::core::vector3df(0,0,0);
+		angle=0;
+	}
 };
 
-class Molecule3{
-public:
-	Point cm;
-	Vector3 v1;
-	Vector3 v2;
-	Vector3 v3;
-	Matrix33 orientation;
-	AxisAngle w;
-	Matrix33 inertiaTensor;
+irr::core::quatenion fromVector (irr::core::vector3df v){
+	irr::core::quaternion q;
+	q.X=v.X;
+	q.Y=v.Y;
+	q.Z=v.Z;
+	q.W=0;
+	return q;
+}
 
-};
+irr::core::vector3df purequatToVector(irr::core::quaternion q) {
+	return irr::core::vector3df(q.X,q.Y,q.Z);
+}
+
+irr::core::vector3df fromRotation(irr::core::quaternion q,irr::core::vector3df v){
+	irr::core::quaternion q1;
+	q1=fromVector(v);
+	q1=q*q1*q.makeInverse();
+	return v=purequatToVector(q1);
+
+}
 
 #endif

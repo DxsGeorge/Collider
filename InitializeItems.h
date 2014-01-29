@@ -1,5 +1,5 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef INITIALIZEITEMS_H
+#define INITIALIZEITEMS_H
 
 void Initialize(int choice, int N, float R);
 
