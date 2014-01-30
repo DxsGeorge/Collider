@@ -4,6 +4,7 @@
 
 namespace irr{
 namespace core{
+
 void checkSphereCollision (Sphere sph1, Sphere sph2, float e){
 	if (sph1.cm.distance(sph2.cm)<=sph1.R+sph2.R) SphereCollisionResponse(sph1,sph2,e);
 }
@@ -25,6 +26,8 @@ void SphereCollisionResponse (Sphere sph1, Sphere sph2, float e){
 void UpdateSpherePos(Sphere sph, float dt){
 	sph.cm=sph.cm+sph.speed*dt;
 }
+
+void 
 
 }
 }

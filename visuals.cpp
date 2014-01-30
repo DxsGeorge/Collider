@@ -6,6 +6,7 @@
 //   management library
 #include "visuals.h"   // Header file for our OpenGL functions
 #include "math3.h"
+#include "physics.h"
 #include "collidables.h"
 
 
@@ -118,7 +119,7 @@ void Render()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef(0,0,-8*N*R);
+	//glTranslatef(0,0,-8*N*R);
 	//glRotatef(45,0,1,0);
 	glTranslatef(tranx,trany,tranz);
 	glRotatef(rotx,1,0,0);
@@ -126,10 +127,10 @@ void Render()
 	glRotatef(rotz,0,0,1);
 	//Box(N,R);
 	glColor4f(1,0,0,1.0);
-	if (choice==1){
-		for (int i=0;i<int(vertices.size());i++){
+	if (spheres.size()>0){
+		for (int i=0;i<int(spheres.size());i++){
 			glPushMatrix();
-			glTranslatef(vertices.at(i).x,vertices.at(i).y,vertices.at(i).z);
+			glTranslatef(spheres.at(i).x,spheres.at(i).y,spheres.at(i).z);
 			//glRotatef(f,1,0,0);
 			glutSolidSphere(R,30,30);
 			glPopMatrix();
@@ -140,29 +141,21 @@ void Render()
 			glPushMatrix();
 			glTranslatef(mols.at(i).cm.x,mols.at(i).cm.y,mols.at(i).cm.z);
 			glPushMatrix();
-			glTranslatef(mols.at(i).v1.x,mols.at(i).v1.y,mols.at(i).v1.z);
+			glTranslatef(mols.at(i).sph1.X,mols.at(i).sph1.Y,mols.at(i).sph1.Z);
 			glutSolidSphere(R,20,20);
 			glPopMatrix();
 			glPushMatrix();
-			glTranslatef(mols.at(i).v2.x,mols.at(i).v2.y,mols.at(i).v2.z);
+			glTranslatef(mols.at(i).sph2.X,mols.at(i).sph2.Y,mols.at(i).sph2.Z);
 			glutSolidSphere(R,20,20);
 			glPopMatrix();
 			glPushMatrix();
-			glTranslatef(mols.at(i).v3.x,mols.at(i).v3.y,mols.at(i).v3.z);
+			glTranslatef(mols.at(i).sph3.X,mols.at(i).sph3.Y,mols.at(i).sph3.Z);
 			glutSolidSphere(R,20,20);
 			glPopMatrix();
 			//glRotatef(mols.at(i).orientation.W,mols.at(i).orientation.X,mols.at(i).orientation.Y,mols.at(i).orientation.Z);
 			glPopMatrix();
 		}
 	}
-	/*glColor3f(1,1,1);
-	glPushMatrix();
-	glTranslatef(2*N*R+10,-2*N*R,0);
-	WallGraph(counter_wall);
-	glColor3f(0,1,0);
-	glTranslatef(2,0,0);
-	WallGraph(counter_sphere);
-	glPopMatrix();*/
 
 
 	glutSwapBuffers();
@@ -174,88 +167,26 @@ void Render()
 void Idle()
 {
 	t+=0.01;
+	float e=1.0;
 	float dt=0.01;
-	if (choice==1){
-		for (int i=0;i<vertices.size();i++){
-			for (int j=i+1;j<vertices.size();j++){
-				float x12=vertices.at(i).x-vertices.at(j).x;
-				float y12=vertices.at(i).y-vertices.at(j).y;
-				float z12=vertices.at(i).z-vertices.at(j).z;
-				float d=sqrt(pow(x12,2)+pow(y12,2)+pow(z12,2));
-				if (d<=2*R) {
-					count_sph++;
-					counter_sphere.push_back(count_sph);
-					float d1=pow(vertices.at(i).x,2)+pow(vertices.at(i).y,2)+pow(vertices.at(i).z,2);
-					float d2=pow(vertices.at(j).x,2)+pow(vertices.at(j).y,2)+pow(vertices.at(j).z,2);
-					if (d2>d1) {
-						float p12x=vertices.at(i).x-vertices.at(j).x;
-						float p12y=vertices.at(i).y-vertices.at(j).y;
-						float p12z=vertices.at(i).z-vertices.at(j).z;
-						float p=sqrt(pow(p12x,2)+pow(p12y,2)+pow(p12z,2));
-						float var=2*R/p;
-						vertices.at(i).x=vertices.at(j).x+p12x*var;
-						vertices.at(i).y=vertices.at(j).y+p12y*var;
-						vertices.at(i).z=vertices.at(j).z+p12z*var;
-					}
-					else {
-						float p12x=vertices.at(j).x-vertices.at(i).x;
-						float p12y=vertices.at(j).y-vertices.at(i).y;
-						float p12z=vertices.at(j).z-vertices.at(i).z;
-						float p=sqrt(pow(p12x,2)+pow(p12y,2)+pow(p12z,2));
-						float var=2*R/p;
-						vertices.at(j).x=vertices.at(i).x+p12x*var;
-						vertices.at(j).y=vertices.at(i).y+p12y*var;
-						vertices.at(j).z=vertices.at(i).z+p12z*var;
-					}
-					float v1=sqrt(pow(speeds.at(i).x,2)+pow(speeds.at(i).y,2)+pow(speeds.at(i).z,2));
-					float v2=sqrt(pow(speeds.at(j).x,2)+pow(speeds.at(j).y,2)+pow(speeds.at(j).z,2));
-					float en1=pow(v1,2)+pow(v2,2);
-					Vector3 n;
-					n.x=vertices.at(i).x-vertices.at(j).x;
-					n.y=vertices.at(i).y-vertices.at(j).y;
-					n.z=vertices.at(i).z-vertices.at(j).z;
-					float magn=magn3(n);
-					n=Normalize3(n);
-					float e=1;
-					Vector3 v12;
-					v12.x=speeds.at(i).x-speeds.at(j).x;
-					v12.y=speeds.at(i).y-speeds.at(j).y;
-					v12.z=speeds.at(i).z-speeds.at(j).z;
-					float nv12=Dot3(n,v12);
-					float jn=(-(1+e)*nv12)/2;
-					speeds.at(i).x=speeds.at(i).x+jn*n.x;
-					speeds.at(i).y=speeds.at(i).y+jn*n.y;
-					speeds.at(i).z=speeds.at(i).z+jn*n.z;
-					speeds.at(j).x=speeds.at(j).x-jn*n.x;
-					speeds.at(j).y=speeds.at(j).y-jn*n.y;
-					speeds.at(j).z=speeds.at(j).z-jn*n.z;
-					v1=sqrt(pow(speeds.at(i).x,2)+pow(speeds.at(i).y,2)+pow(speeds.at(i).z,2));
-					v2=sqrt(pow(speeds.at(j).x,2)+pow(speeds.at(j).y,2)+pow(speeds.at(j).z,2));
-					float en2=pow(v1,2)+pow(v2,2);
-					if (en1!=en2) printf("%f \n",en1-en2);
+	if (spheres.size()>0){
+		for (int i=0;i<spheres.size();i++){
+			for (int j=i+1;j<spheres.size();j++){
+				checkSphereCollision (spheres.at(i), spheres.at(j),e);
 				}
-			}
-			if (!(vertices.at(i).x+R<N*R/2 && vertices.at(i).x-R>-N*R/2)) {
-				count_wall++;
-				counter_wall.push_back(count_wall);
-				speeds.at(i).x=-speeds.at(i).x;
-			}
-			if (!(vertices.at(i).y+R<N*R/2 && vertices.at(i).y-R>-N*R/2)) {
-				count_wall++;
-				counter_wall.push_back(count_wall);
-				speeds.at(i).y=-speeds.at(i).y;
-			}
-			if (!(vertices.at(i).z+R<N*R/2 && vertices.at(i).z-R>-N*R/2)) {
-				count_wall++;
-				counter_wall.push_back(count_wall);
-				speeds.at(i).z=-speeds.at(i).z;
-			}
-			vertices.at(i).x=vertices.at(i).x+speeds.at(i).x*dt;
-			vertices.at(i).y=vertices.at(i).y+speeds.at(i).y*dt;
-			vertices.at(i).z=vertices.at(i).z+speeds.at(i).z*dt;
+			BallToWallCheck(spheres.at(i));
+			UpdateSpherePos(spheres.at(i),dt);
 		}
 	}
-	
+	else {
+		for (int i=0;i<mols.size();i++){
+			for (int j=i+1;j<mols.size();j++){
+				checkMolCollision(mols.at(i),mols.at(j),e);
+			}
+			MolToWallCheck(mols.at(i));
+			UpdateMolPos(mols.at(i),dt);
+		}	
+	}
 	glutPostRedisplay(); 
 }
 

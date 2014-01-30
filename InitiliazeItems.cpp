@@ -52,4 +52,5 @@ std::vector<Molecule3> InitializeMol (int N, float R){
 		mols.push_back(m);
 
 	}	
+	return mols;
 }
