@@ -51,5 +51,6 @@ std::vector<Molecule3> InitializeMol (int N, float R){
 		m.sph3+=temp3;
 		mols.push_back(m);
 
-	}	
+	}
+	return mols;
 }
