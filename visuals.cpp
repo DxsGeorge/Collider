@@ -4,14 +4,14 @@
 #include <math.h>
 #include "gl/glut.h"   // - An interface and windows 
 //   management library
-#include "visuals.h"   // Header file for our OpenGL functions
 #include "math3.h"
-#include "physics.h"
 #include "collidables.h"
+#include "visuals.h"   // Header file for our OpenGL function
+#include "physics.h"
 
 
 
-int count_wall=0,count_sph=0;
+
 float t=0;
 static float rotx = 0.0;
 static float roty = 0.0;
@@ -102,15 +102,6 @@ void Box(int N, float R){
 	glEnd();
 }
 
-void WallGraph(std::vector<int> count) {
-	glBegin(GL_LINES);
-	if (count.size()>0) {
-		for (int i=0;i<count.size() && i<350;i++){
-			glVertex3f(i*0.1,counter_wall.at(i)*0.1,0);
-		}
-	}
-	glEnd();
-}
 
 void Render()
 {    
@@ -130,29 +121,27 @@ void Render()
 	if (spheres.size()>0){
 		for (int i=0;i<int(spheres.size());i++){
 			glPushMatrix();
-			glTranslatef(spheres.at(i).x,spheres.at(i).y,spheres.at(i).z);
-			//glRotatef(f,1,0,0);
-			glutSolidSphere(R,30,30);
+			glTranslatef(spheres.at(i).cm.x,spheres.at(i).cm.y,spheres.at(i).cm.z);
+			glutSolidSphere(spheres.at(i).R,30,30);
 			glPopMatrix();
 		}
 	}
 	else {
-		for (int i=0;i<mols.size();i++){
+		for (int i=0;i<int(mols.size());i++){
 			glPushMatrix();
 			glTranslatef(mols.at(i).cm.x,mols.at(i).cm.y,mols.at(i).cm.z);
 			glPushMatrix();
 			glTranslatef(mols.at(i).sph1.X,mols.at(i).sph1.Y,mols.at(i).sph1.Z);
-			glutSolidSphere(R,20,20);
+			glutSolidSphere(mols.at(i).R,20,20);
 			glPopMatrix();
 			glPushMatrix();
 			glTranslatef(mols.at(i).sph2.X,mols.at(i).sph2.Y,mols.at(i).sph2.Z);
-			glutSolidSphere(R,20,20);
+			glutSolidSphere(mols.at(i).R,20,20);
 			glPopMatrix();
 			glPushMatrix();
 			glTranslatef(mols.at(i).sph3.X,mols.at(i).sph3.Y,mols.at(i).sph3.Z);
-			glutSolidSphere(R,20,20);
+			glutSolidSphere(mols.at(i).R,20,20);
 			glPopMatrix();
-			//glRotatef(mols.at(i).orientation.W,mols.at(i).orientation.X,mols.at(i).orientation.Y,mols.at(i).orientation.Z);
 			glPopMatrix();
 		}
 	}
@@ -170,17 +159,17 @@ void Idle()
 	float e=1.0;
 	float dt=0.01;
 	if (spheres.size()>0){
-		for (int i=0;i<spheres.size();i++){
-			for (int j=i+1;j<spheres.size();j++){
+		for (int i=0;i<int(spheres.size());i++){
+			for (int j=i+1;j<int(spheres.size());j++){
 				checkSphereCollision (spheres.at(i), spheres.at(j),e);
 				}
-			BallToWallCheck(spheres.at(i));
+			BallToWallCheck(spheres.at(i),spheres.size()*spheres.at(i).R);
 			UpdateSpherePos(spheres.at(i),dt);
 		}
 	}
 	else {
-		for (int i=0;i<mols.size();i++){
-			for (int j=i+1;j<mols.size();j++){
+		for (int i=0;i<int(mols.size());i++){
+			for (int j=i+1;j<int(mols.size());j++){
 				checkMolCollision(mols.at(i),mols.at(j),e);
 			}
 			MolToWallCheck(mols.at(i));
@@ -208,7 +197,8 @@ void Resize(int w, int h)
 
 
 	float aspect = (float)w/(float)h;             /// aspect ratio
-	gluPerspective(60.0, aspect, 1.0, 500.0+N*R);
+	if (spheres.size()>0) gluPerspective(60.0, aspect, 1.0, 500.0+spheres.size()*spheres.at(0).R);
+	else gluPerspective(60.0, aspect, 1.0, 500.0+mols.size()*mols.at(0).R);
 }
 
 

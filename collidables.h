@@ -1,7 +1,9 @@
 #ifndef COLLIDABLES_H
 #define COLLIDABLES_H
-#include "math3.h"
+
+
 #include "vector3d.h"
+#include "math3.h"
 #include "quaternion.h"
 
 class Sphere{

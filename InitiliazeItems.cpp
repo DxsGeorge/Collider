@@ -1,9 +1,12 @@
-#include <stdio.h>
 #include <vector>
 #include <time.h>
 
+#include "InitializeItems.h"
 #include "math3.h"
+#include "quaternion.h"
+#include "vector3d.h"
 #include "collidables.h"
+
 #define SQRT2 1.4142135;
 #define DIVSQRT2 0.70710678118;
 

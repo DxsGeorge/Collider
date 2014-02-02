@@ -79,29 +79,30 @@ public:
 	}
 };
 
-class MatriX33{
+class Matrix33{
+public:
 	irr::core::vector3df v1; //row1
 	irr::core::vector3df v2; //row2
 	irr::core::vector3df v3; //row3
-	MatriX33 (irr::core::vector3df _v1, irr::core::vector3df _v2, irr::core::vector3df _v3){
+	Matrix33 (irr::core::vector3df _v1, irr::core::vector3df _v2, irr::core::vector3df _v3){
 		v1=_v1;
 		v2=_v2;
 		v3=_v3;
 	}
-	MatriX33 (){
+	Matrix33 (){
 		irr::core::vector3df v1,v2,v3;
 	}
 	float Det(){
 		return v1.Z*v2.X*v3.Y+v1.X*v2.Y*v3.Z+v1.Y*v2.Z*v3.X-v1.X*v2.X*v3.Z-v1.Z*v2.Y*v3.X-v1.X*v2.Z*v3.Y;
 	}
-	MatriX33 Inverse(){
+	Matrix33 Inverse(){
 		float det=this->Det();
 		irr::core::vector3df row1 ((v2.Y*v3.Z-v2.Z*v3.Y)/det,(v1.Z*v3.Y-v1.Y*v3.Z)/det,(v1.Y*v2.Z-v1.Z*v2.Y)/det);
 		irr::core::vector3df row2 ((v2.Z*v3.X-v2.X*v3.Z)/det,(v1.X*v3.Z-v1.Z*v3.X)/det,(v1.Z*v2.X-v1.X*v2.Z)/det);
 		irr::core::vector3df row3 ((v2.X*v3.Y-v2.Y*v3.X)/det,(v1.Y*v3.X-v1.X*v3.Y)/det,(v1.X*v2.Y-v1.Y*v2.X)/det);
-		return MatriX33 (row1,row2,row3);
+		return Matrix33 (row1,row2,row3);
 	}
-	MatriX33 fromAXisAngle(irr::core::vector3df v, float angle){
+	Matrix33 fromAXisAngle(irr::core::vector3df v, float angle){
 		angle*=3.14/180;
 		irr::core::vector3df row1 (cos(angle)+v.X*v.X*(1-cos(angle)), 
 			          v.X*v.Y*(1-cos(angle))-v.Z*sin(angle),
@@ -112,7 +113,7 @@ class MatriX33{
 		irr::core::vector3df row3 (v.Z*v.X*(1-cos(angle))-v.Y*sin(angle),
 					  v.Z*v.Y*(1-cos(angle))+v.X*sin(angle),
 					  cos(angle)+v.Z*v.Z*(1-cos(angle)));
-		return MatriX33 (row1,row2, row3);
+		return Matrix33 (row1,row2, row3);
 	}
 	Vector3 operator*(irr::core::vector3df v){
 		float a=v1.X*v.X+v1.Y*v.Y+v1.Z*v.Z;
@@ -136,7 +137,7 @@ public:
 	}
 };
 
-irr::core::quatenion fromVector (irr::core::vector3df v){
+irr::core::quaternion fromVector (irr::core::vector3df v){
 	irr::core::quaternion q;
 	q.X=v.X;
 	q.Y=v.Y;
