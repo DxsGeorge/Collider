@@ -2,9 +2,9 @@
 #define COLLIDABLES_H
 
 
-#include "vector3d.h"
+#include "quat.h"
 #include "math3.h"
-#include "quaternion.h"
+
 
 class Sphere{
 public:

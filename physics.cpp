@@ -1,8 +1,7 @@
 #include "physics.h"
 #include "math3.h"
 #include "collidables.h"
-
-
+#include "quat.h"
 
 void SphereCollisionResponse (Sphere& sph1, Sphere& sph2, float e){
 	irr::core::vector3df normal=sph2.cm-sph1.cm;
