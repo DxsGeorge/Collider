@@ -5,7 +5,7 @@
 #include "gl/glut.h"   // - An interface and windows 
 //   management library
 #include "math3.h"
-#include "visuals.h"   // Header file for our OpenGL function
+#include "visuals.h"   
 #include "physics.h"
 #include "collidables.h"
 

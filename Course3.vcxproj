@@ -94,8 +94,8 @@
     <ClInclude Include="visuals.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Desktop\Apallaktiki\main.cpp" />
     <ClCompile Include="InitiliazeItems.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="physics.cpp" />
     <ClCompile Include="visuals.cpp" />
   </ItemGroup>

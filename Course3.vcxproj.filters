@@ -38,13 +38,13 @@
     <ClCompile Include="visuals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InitiliazeItems.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Desktop\Apallaktiki\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
