@@ -1,7 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include "quat.h"
+#include "irrlicht.h"
 
 class Point{
 public:

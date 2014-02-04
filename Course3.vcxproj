@@ -58,7 +58,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\Users\user\Documents\GitHub\Collider\irr</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\user\Desktop\irrlicht-1.8.1\include;C:\Users\user\Desktop\boost_1_55_0\boost\math</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;opengl32.lib;glaux.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
